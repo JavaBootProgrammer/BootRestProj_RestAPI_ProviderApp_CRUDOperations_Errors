@@ -12,66 +12,34 @@ import com.nt.repository.IEmployeeRepository;
 @Service
 public class EmployeeServiceImp implements IEmployeeService {
 
-	@Autowired
-	private IEmployeeRepository employeeRepository;
+    @Autowired
+    private IEmployeeRepository employeeRepository;
 
-	@Override
-	public Iterable<Employee> listEmployees() {
+    @Override
+    public Iterable<Employee> listEmployees() {
 
-		List<Employee> list = employeeRepository.findAll();
-		System.out.println("EmployeeServiceImp.listEmployees()" + list);
+        List<Employee> list = employeeRepository.findAll();
+        System.out.println("EmployeeServiceImp.listEmployees()" + list);
 
-		System.out.print("------------");
+        System.out.print("------------");
 
-		for (Employee country : list) {
-			System.out.println("Salary " + country.getSalary());
-			System.out.println("Dept  " + country.getDept());
-			System.out.println("Employee Name  " + country.getEmployeeName());
-			System.out.println("Job  " + country.getJob());
-		}
+        for (Employee country : list) {
+            System.out.println("Salary " + country.getSalary());
+            System.out.println("Dept  " + country.getDept());
+            System.out.println("Employee Name  " + country.getEmployeeName());
+            System.out.println("Job  " + country.getJob());
+        }
 
-		System.out.print("------------");
-		return list;
-	}
+        System.out.print("------------");
+        return list;
+    }
 
-	@Override
-	public String regiterEmployee(Employee emp) {
+    @Override
+    public Employee findByID(int id) {
 
-		int value = employeeRepository.save(emp).getEmployeeNo();
-		return value + " is inserted into database";
-	}
+        Employee employeeRecord = employeeRepository.findById(id).get();
 
-	@Override
-	public Employee findByID(int id) {
-
-		Employee employeeRecord = employeeRepository.findById(id).get();
-
-		return employeeRecord;
-	}
-
-	@Override
-	public String UdpateEmployee(Employee emp) {
-
-		System.out.println("HomeController.updateEmployee()");
-
-		Optional<Employee> empOptional = employeeRepository.findById(emp.getEmployeeNo());
-
-		if (empOptional.isPresent()) {
-			employeeRepository.save(emp);
-			return "Employee updated";
-
-		}
-		return "Employee NOT updated";
-
-	}
-
-	@Override
-	public String deleteEmployee(Employee employee) {
-		System.out.println("EmployeeServiceImp.deleteEmployee()");
-		
-		employeeRepository.deleteById(employee.getEmployeeNo());
-		
-		return employee.getEmployeeNo()+"";
-	}
+        return employeeRecord;
+    }
 
 }
